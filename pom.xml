@@ -48,14 +48,19 @@
                 </configuration>
             </plugin>
 
-            <!-- Spring Boot plugin pour créer le jar exécutable -->
+
+
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring.boot.version}</version>
-                <configuration>
-                    <mainClass>com.archivage.demo.ArchivageAiBackendApplication</mainClass>
-                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
