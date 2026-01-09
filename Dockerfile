@@ -1,0 +1,16 @@
+# Étape 1 : builder l'application Java
+FROM maven:3.9.6-eclipse-temurin-17 AS builder
+WORKDIR /app
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
+COPY src ./src
+RUN mvn clean package -DskipTests
+
+# Étape 2 : image d'exécution légère
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=builder /app/target/*.jar app.jar
+
+# Railway écoute automatiquement sur le port défini par la variable PORT
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "app.jar"]
